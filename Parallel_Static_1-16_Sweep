@@ -1,0 +1,111 @@
+Using 100 fixed buildings across all experiments
+
+Workers = 1, chunksize = 100
+  run 1/5: 109.12s
+  run 2/5: 136.54s
+  run 3/5: 113.50s
+  run 4/5: 111.62s
+  run 5/5: 106.05s
+  → mean: 115.37s
+
+Workers = 2, chunksize = 50
+  run 1/5: 59.41s
+  run 2/5: 70.64s
+  run 3/5: 55.66s
+  run 4/5: 59.50s
+  run 5/5: 65.49s
+  → mean: 62.14s
+
+Workers = 4, chunksize = 25
+  run 1/5: 43.87s
+  run 2/5: 42.93s
+  run 3/5: 43.68s
+  run 4/5: 44.59s
+  run 5/5: 42.54s
+  → mean: 43.52s
+
+Workers = 8, chunksize = 12
+  run 1/5: 41.85s
+  run 2/5: 42.04s
+  run 3/5: 41.48s
+  run 4/5: 41.78s
+  run 5/5: 41.14s
+  → mean: 41.66s
+
+Workers = 16, chunksize = 6
+  run 1/5: 42.97s
+  run 2/5: 42.39s
+  run 3/5: 43.08s
+  run 4/5: 42.84s
+  run 5/5: 43.24s
+  → mean: 42.90s
+
+
+=== RESULTS SUMMARY ===
+ Workers     Run1     Run2     Run3     Run4     Run5     Mean   Speedup
+       1   109.12   136.54   113.50   111.62   106.05   115.37     1.000x
+       2    59.41    70.64    55.66    59.50    65.49    62.14     1.857x
+       4    43.87    42.93    43.68    44.59    42.54    43.52     2.651x
+       8    41.85    42.04    41.48    41.78    41.14    41.66     2.769x
+      16    42.97    42.39    43.08    42.84    43.24    42.90     2.689x
+
+Saved to benchmark_results.csv
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 28236876: <Jacobi_Parallel_100> in cluster <dcc> Done
+
+Job <Jacobi_Parallel_100> was submitted from host <hpclogin1> by user <s253759> in cluster <dcc> at Sun Apr 19 12:58:10 2026
+Job was executed on host(s) <16*n-62-20-4>, in queue <gpuv100>, as user <s253759> in cluster <dcc> at Sun Apr 19 12:58:10 2026
+</zhome/41/4/224024> was used as the home directory.
+</zhome/41/4/224024/Project> was used as the working directory.
+Started at Sun Apr 19 12:58:10 2026
+Terminated at Sun Apr 19 13:23:42 2026
+Results reported at Sun Apr 19 13:23:42 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J Jacobi_Parallel_100
+#BSUB -q gpuv100
+#BSUB -gpu "num=1:mode=shared"
+#BSUB -n 16                         # Must cover largest worker count
+#BSUB -R "span[hosts=1]"
+#BSUB -W 02:00                      # 5 runs × 5 configs × ~45s each ≈ 90 min worst case
+#BSUB -R "rusage[mem=1GB]"
+#BSUB -o run_%J.out
+#BSUB -e run_%J.err
+
+source /dtu/projects/02613_2025/conda/conda_init.sh
+conda activate 02613
+export PYTHONNOUSERSITE=1
+
+python3 -u Parallel_Static.py
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   6365.00 sec.
+    Max Memory :                                 1737 MB
+    Average Memory :                             696.38 MB
+    Total Requested Memory :                     16384.00 MB
+    Delta Memory :                               14647.00 MB
+    Max Swap :                                   -
+    Max Processes :                              21
+    Max Threads :                                61
+    Run time :                                   1532 sec.
+    Turnaround time :                            1532 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <run_28236876.err> for stderr output of this job.
+
