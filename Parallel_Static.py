@@ -98,6 +98,8 @@ def process_building(bid):
     return bid, stats
 
 if __name__ == '__main__':
+    import multiprocessing
+    multiprocessing.set_start_method('spawn')  # ← add this as the very first line
     results_dir = 'results'
     os.makedirs(results_dir, exist_ok=True)
 
@@ -108,6 +110,7 @@ if __name__ == '__main__':
     NUM_RUNS = 5  # Repeat each config 5 times for reliable mean
 
     # Fix the same 100 buildings for ALL configs — removes data variance as a confound
+    random.seed(42) 
     building_ids = random.sample(all_ids, N)
     print(f"Using {N} fixed buildings across all experiments")
 
